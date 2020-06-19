@@ -21,10 +21,20 @@
                             @foreach($question->answers as $answer)
                                 <li class="list-group-item d-flex justify-content-between">
                                     <div>{{ $answer->answer }}</div>
-                                    
+                                    @if($question->responses->count())
+                                        <div>{{ intval(($answer->responses->count() * 100) / $question->responses->count()) }}%</div>
+                                    @endif
                                 </li>
                             @endforeach
                         </ul>
+                </div>
+                <div class="card-footer">
+                        <form action="/questionnaire/{{ $questionnaire->id }}/questions/{{ $question->id }}" method="post">
+                            @method('DELETE')
+                            @csrf
+
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete Question</button>
+                        </form>
                 </div>
             </div>
             @endforeach
